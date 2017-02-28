@@ -1,0 +1,22 @@
+{
+  "name": "rn-cli",
+  "version": "0.1.0",
+  "description": "command line tool for creating react-native boilerplate files",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "react-native",
+    "command-line"
+  ],
+  "author": "Evan Moncuso",
+  "license": "ISC",
+  "bin": {
+    "rn-cli": "./index.js"
+  },
+  "dependencies": {
+    "commander": "^2.9.0",
+    "shelljs": "^0.7.6"
+  }
+}
