@@ -53,7 +53,7 @@ const _dumbInit = (podName) => (
 const _smartInit = (podName) => (
   `class ${podName} extends Component {
   constructor(props, context) {
-    super(props);
+    super(props, context);
     this.state = {
 
     }
