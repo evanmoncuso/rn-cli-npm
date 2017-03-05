@@ -21,6 +21,10 @@ export const actions = {
 }
 `
 
+const flowFlag = `// @flow
+
+`
+
 const imports = `import React, { Component } from 'react';
 import {
   Text,
@@ -96,7 +100,7 @@ const _exportWithoutConnection = (podName) => (`export default ${podName};`);
 const buildPages = (buildObj) => {
   let index = ``;
   let styles = stylePage;
-  let { podName, type, redux, indexDetails, files } = buildObj;
+  let { podName, type, redux, flow, indexDetails, files } = buildObj;
   let { hasMSTP, hasMDTP } = indexDetails;
   let actions = files.length === 3;
 
@@ -109,7 +113,12 @@ const buildPages = (buildObj) => {
 
   // build the index page;
 
-  // start with imports;
+  // check flow
+  if(flow) {
+    index += flowFlag;
+  }
+
+  // add imports;
   index += imports;
   // see if we need redux
   if(redux) {
@@ -147,4 +156,4 @@ const buildPages = (buildObj) => {
   return index;
 }
 
-module.exports = { b: buildPages, s: stylePage, a: actionsPage };
+module.exports = { b: buildPages, s: stylePage, a: actionsPage, f: flowFlag };

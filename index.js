@@ -6,7 +6,7 @@ const shell = require('shelljs');
 const parts = require('./template-files/parts');
 
 const _mkPath = (path) => {
-  pathArr = path.split('/')
+  pathArr = path.split('/');
 
   pathArr.forEach((i) => {
     if(shell.ls().indexOf(i) === -1) {
@@ -25,6 +25,7 @@ const _buildPod = (podname, program) => {
     files: ['index.js', 'styles.js'],
     type: 'smart',
     redux: false,
+    flow: false,
     indexDetails: {
       hasMSTP: false,
       hasMDTP: false,
@@ -34,6 +35,10 @@ const _buildPod = (podname, program) => {
   // should the pods be a dumb component?
   if(program.dumbComponent) {
     pod.type = 'dumb';
+  }
+
+  if(program.flow) {
+    pod.flow = true;
   }
   // should the pod connect to redux store?
   if(program.redux) {
@@ -63,6 +68,7 @@ program
   .option('-s, --mapStateToProps', 'include a mapStateToProps function and connect the index.js file to the redux store')
   .option('-d, --mapDispatchToProps', 'include a mapDispatchToProps function and connect the index.js file to the redux store')
   .option('-u, --dumb-component', 'make the component a \'dumb\' or presentational component with no independent state')
+  .option('-f, --flow', 'add the \'flow]\' tag at the top of the index and action file')
   .parse(process.argv);
 
 const newIndex = parts.b(_buildPod(program.args, program));
@@ -92,5 +98,8 @@ shell.ShellString(parts.s).to('styles.js');
 
 if(program.addActions) {
   shell.touch('actions.js');
-  shell.ShellString(parts.a).to('actions.js');
+  if(program.flow) {
+    shell.ShellString(parts.f).to('actions.js');
+  }
+  shell.ShellString(parts.a).toEnd('actions.js');
 }
