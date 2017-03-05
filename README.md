@@ -25,6 +25,7 @@ As of right now, it'll be cloning the repo and running `npm install -g` in the r
 | -s | --mapStateToProps | include a mapStateToProps function and connect the index.js file to the redux store |
 | -d | --mapDispatchToProps | include a mapDispatchToProps function and connect the index.js file to the redux store |
 | -u | --dumb | make the component a 'dumb' or presentational component with no independent state |
+| -f | --flow | Include the // @flow flag at the top of the index and (if applicable) the actions file(s) |
 
 
 ## Syntax
@@ -60,11 +61,13 @@ const Dumb = () => {
 export default Dumb;
 ```
 
-### Simple 'Smart' React component connected to the redux store w/ actions
+### Simple 'Smart' React component connected to the redux store w/ actions and flow
 
-`rn-cli -arsd SmartRedux`
+`rn-cli -adfrs SmartRedux`
 
 ```javascript
+// @flow
+
 import React, { Component } from 'react';
 import {
   Text,
