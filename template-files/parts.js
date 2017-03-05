@@ -51,6 +51,9 @@ const _dumbInit = (podName) => (
   );
 }
 
+${podName}.propTypes = {
+};
+
 `);
 
 const _smartInit = (podName) => (
@@ -68,6 +71,9 @@ const _smartInit = (podName) => (
     )
   }
 }
+
+${podName}.propTypes = {
+};
 
 `)
 
