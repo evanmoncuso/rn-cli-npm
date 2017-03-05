@@ -1,6 +1,6 @@
 {
   "name": "rn-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "command line tool for creating react-native boilerplate files",
   "main": "index.js",
   "scripts": {

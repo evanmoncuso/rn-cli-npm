@@ -68,7 +68,7 @@ program
   .option('-s, --mapStateToProps', 'include a mapStateToProps function and connect the index.js file to the redux store')
   .option('-d, --mapDispatchToProps', 'include a mapDispatchToProps function and connect the index.js file to the redux store')
   .option('-u, --dumb-component', 'make the component a \'dumb\' or presentational component with no independent state')
-  .option('-f, --flow', 'add the \'flow]\' tag at the top of the index and action file')
+  .option('-f, --flow', 'add the flow tag at the top of the index and action file')
   .parse(process.argv);
 
 const newIndex = parts.b(_buildPod(program.args, program));
