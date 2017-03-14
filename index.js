@@ -99,6 +99,8 @@ if(program.addActions) {
   shell.touch('actions.js');
   if(program.flow) {
     shell.ShellString(parts.f).to('actions.js');
+    shell.ShellString(parts.a).toEnd('actions.js');
+  } else {
+    shell.ShellString(parts.a).to('actions.js');
   }
-  shell.ShellString(parts.a).toEnd('actions.js');
 }
