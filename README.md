@@ -6,10 +6,17 @@ That structure consists of
 
 ```javascript
   - podname
-  | - index.js // home to the major of the
+  | - index.js // home to the component itself
   | - styles.js // home to the styles for that component
-  | - actions.js // home to any redux actions/dispatches [optional]
 ```
+
+OR
+
+```javascript
+  - podname
+  | - index.js // a 'react-navigation' navigator component
+```
+
 
 ## Installation
 
@@ -21,11 +28,13 @@ As of right now, it'll be cloning the repo and running `npm install -g` in the r
 | ------------- | ------------- | ----- |
 | -h | --help | HELP |
 | -r | --redux | give component access to redux store |
-| -a | --add-actions | include an actions file |
 | -s | --mapStateToProps | include a mapStateToProps function and connect the index.js file to the redux store |
 | -d | --mapDispatchToProps | include a mapDispatchToProps function and connect the index.js file to the redux store |
 | -u | --dumb | make the component a 'dumb' or presentational component with no independent state |
-| -f | --flow | Include the // @flow flag at the top of the index and (if applicable) the actions file(s) |
+| -f | --flow | Include the // @flow flag at the top of the index|
+| -S | --stackNav | create a stack navigator component |
+| -T | --tabNav | create a tab navigator component |
+| -P | --propTypes | use and add the `prop-types` add on. needed for React version > 15.5.7 |
 
 
 ## Syntax
@@ -110,6 +119,29 @@ const mapDispatchToProps = (dispatch) => (
 
 export default connect(mapStateToProps, mapDispatchToProps)(SmartRedux);
 ```
+
+
+
+
+### Sample Stack Navigator file
+`rn-cli -S Main`
+
+```javascript
+import { StackNavigator } from 'react-navigation';
+
+/*
+import ComponentName from './path/to/component';
+*/
+
+const Main = StackNavigator({
+  //ComponentName: 'ComponentName',
+}, {
+  headerMode: '',
+  initialRouteName: '',
+});
+
+export default Main;
+```
 ### Sample Styles file
 
 ```javascript
@@ -120,25 +152,9 @@ export const styles = StyleSheet.create({
 });
 ```
 
-### Sample Actions file
-
-```javascript
-/**
-  A nice example action obj
-
-  const dispatchXYZ = (data) => {
-    return {
-      type: 'AN_ACTION',
-      data: data,
-    }
-  }
-*/
-
-export const actions = {
-
-}
-```
 
 ## Notes
 
 This tool WILL overwrite files if there are already files in that directory
+
+Currently, this tool only supports navigation with `react-navigation`

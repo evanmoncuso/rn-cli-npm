@@ -1,4 +1,4 @@
-const stylePage = `import { StyleSheet, Dimensions } from 'react-native';
+export const styles = `import { StyleSheet, Dimensions } from 'react-native';
 const { height, width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
@@ -31,18 +31,17 @@ import {
   Text,
   View,
 } from 'react-native';
-
 `
 
-const importStyles = `import { styles } from './styles';
+const importStyles = `
+import { styles } from './styles';
 
 `;
 
-const importActions = `import { actions } from './actions';
+const props = `import PropTypes from 'prop-types';
 `;
 
 const connect = `import { connect } from 'react-redux';
-
 `;
 
 const _dumbInit = (podName) => (
@@ -78,6 +77,39 @@ ${podName}.propTypes = {
 
 `)
 
+const stack = (podName) =>  (
+`import { StackNavigator } from 'react-navigation';
+
+/*
+import ComponentName from './path/to/component';
+*/
+
+const ${podName} = StackNavigator({
+  //ComponentName: 'ComponentName',
+}, {
+  headerMode: '',
+  initialRouteName: '',
+});
+
+export default ${podName};`
+)
+
+const tab  = (podName) => (
+`import { TabNavigator } from 'react-navigation';
+
+/*
+import ComponentName from './path/to/component';
+*/
+
+const ${podName} = TabNavigator({
+  //ComponentName: 'ComponentName',
+}, {
+ initialRouteName: '',
+});
+
+export default ${podName};`
+)
+
 const mstp = `const mapStateToProps = (state) => (
   {
 
@@ -104,63 +136,62 @@ export default connect(${mstp}, ${mdtp})(${podName});
 
 const _exportWithoutConnection = (podName) => (`export default ${podName};`);
 
-const buildPages = (buildObj) => {
-  let index = ``;
-  let styles = stylePage;
-  let { podName, type, redux, flow, indexDetails, files } = buildObj;
-  let { hasMSTP, hasMDTP } = indexDetails;
-  let actions = files.length === 3;
+export const buildPodFiles = (buildObj) => {
+    let index = ``;
+    let { podName } = buildObj;
 
-  let filename = podName[0].split('/');
-  if(filename[filename.length - 1] === '') {
-    filename = filename[filename.length - 2];
-  } else {
-    filename = filename[filename.length - 1];
-  }
+    if(buildObj.type === 'nav') {
+      // create a nav object
+      let { type } = buildObj.navDetails;
+      if(type === 'stack') {
+        return stack(podName);
+      } else {
+        return tab(podName);
+      }
+    } else {
+      // create a component
+      let { type, redux, hasMSTP, hasMDTP, flow, propTypes } = buildObj.indexDetails;
+      // build the index age;
 
-  // build the index page;
+      // check flow
+      if(flow) {
+        index += flowFlag;
+      }
 
-  // check flow
-  if(flow) {
-    index += flowFlag;
-  }
+      // add imports;
+      index += imports;
+      // see if we need redux
+      if(redux) {
+        index += connect;
+      }
 
-  // add imports;
-  index += imports;
-  // see if we need redux
-  if(redux) {
-    index += connect;
-  }
-  // add actions if needed
-  if(actions) {
-    index += importActions;
-  }
-  // add styles if needed
-  index += importStyles;
+      if(propTypes) {
+        index += props;
+      }
+      // add styles if needed
+      index += importStyles;
 
-  // check for component type
-  if(type === 'smart') {
-    index += _smartInit(filename);
-  } else {
-    index += _dumbInit(filename);
-  }
+      // check for component type
+      if(type === 'smart') {
+        index += _smartInit(podName);
+      } else {
+        index += _dumbInit(podName);
+      }
+      if(redux) {
+        hasMSTP = true;
+        index += mstp;
 
-  if(redux) {
-    hasMSTP = true;
-    index += mstp;
+        if(hasMDTP) {
+          index += mdtp;
+        }
+      }
 
-    if(hasMDTP) {
-      index += mdtp;
+      if(redux) {
+        index += _connection(hasMSTP, hasMDTP, podName)
+      } else {
+        index += _exportWithoutConnection(podName);
+      }
+
+      return index;
     }
-  }
-
-  if(redux) {
-    index += _connection(hasMSTP, hasMDTP, filename)
-  } else {
-    index += _exportWithoutConnection(filename);
-  }
-
-  return index;
 }
-
-module.exports = { b: buildPages, s: stylePage, a: actionsPage, f: flowFlag };

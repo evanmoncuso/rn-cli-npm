@@ -1,6 +1,6 @@
 {
   "name": "rn-cli",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "command line tool for creating react-native boilerplate files",
   "main": "index.js",
   "scripts": {
@@ -11,12 +11,15 @@
     "command-line"
   ],
   "author": "Evan Moncuso",
-  "license": "ISC",
+  "license": "MIT",
   "bin": {
     "rn-cli": "./index.js"
   },
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "commander": "^2.9.0",
+    "jest": "^20.0.4",
     "shelljs": "^0.7.6"
   }
 }
