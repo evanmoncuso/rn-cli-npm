@@ -1,8 +1,8 @@
 {
   "name": "rn-cli",
   "version": "1.1.0",
-  "description": "command line tool for creating react-native boilerplate files",
-  "main": "dist/index.js",
+  "description": "command line tool for creating react-native pods",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "npm test",
     "build": "babel source --out-dir dist"
